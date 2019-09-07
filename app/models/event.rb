@@ -2,8 +2,6 @@ class Event < ActiveRecord::Base
   validates :venue, :title, :start_date, :end_date, presence: true
   belongs_to :venue
 
-  MAX_TWEET_LENGTH = 140
-
   scope :opening_soon, lambda {
     includes(:venue)
       .includes(venue: :neighborhood)
@@ -46,23 +44,5 @@ class Event < ActiveRecord::Base
       list << [neighborhood.name, events] unless events.empty?
     end
     list
-  end
-
-  # text for tweets
-  def tweet_text
-    text = "At #{venue.name}"
-    text += " @#{venue.twitter}" if venue.twitter.present?
-    text += ": #{title}"
-    text = text.truncate(MAX_TWEET_LENGTH) if text.length > MAX_TWEET_LENGTH
-    text
-  end
-
-  def buffer_data
-    data = {
-      profile_ids: [ENV['BUFFER_PROFILE_ID']],
-      text: tweet_text
-    }
-    url.present? && data[:media] = { link: url }
-    data
   end
 end
