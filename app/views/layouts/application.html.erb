@@ -2,14 +2,24 @@
 <html>
   <head>
     <title>Filterizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <%= yield %>
+    <section id="header">
+      <h2><a href="/">FILTERIZER</a></h2>
+    </section>
+
+    <section id="main">
+      <%= yield %>
+    </section>
+
+    <section id="footer">
+      <p>A one-page art show recommendation website from <a href="https://twitter.com/bhoggard">@bhoggard</a> and <a href="https://twitter.com/wagnerblog">@wagnerblog</a>. Follow us on Twitter: <a href="https://twitter.com/filterizer">@filterizer</a>.</p>
+    </section>
   </body>
 </html>

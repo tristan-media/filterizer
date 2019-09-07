@@ -1,0 +1,33 @@
+<% unless @opening_soon.blank? %>
+
+  <h3>Openings</h3>
+
+  <% @opening_soon.each do |opening| %>
+  <div class="opening">
+    <h4><span class="title"><%= opening.title %></span> at <%= link_to(opening.venue.name, opening.url) %></h4>
+    <p class="opening-date"><%= opening_datetime(opening) %></p>
+    <p class="address"><%= opening.venue.address %> [<%= opening.venue.neighborhood.name %>]</p>
+  </div>
+  <% end %>
+
+<% end %>
+
+<% unless @open_now.blank? %>
+
+  <h3>Already Open</h3>
+
+  <% @open_now.each do |now| %>
+
+    <h4 class="neighborhood"><%= now.first %></h4>
+
+    <% now.last.each do |event| %>
+      <h4><span class="title"><%= event.title %></span> at <%= link_to(event.venue.name, event.url) %></h4>
+      <p class="address"><%= event.venue.address %></p>
+      <p class="closes">closes <%= event.end_date.strftime('%A, %B %e') %></p>
+    <% end %>
+
+  <% end %>
+
+<% end %>
+
+
