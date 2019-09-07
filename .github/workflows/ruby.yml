@@ -3,18 +3,35 @@ name: Ruby
 on: [push]
 
 jobs:
-  build:
-
+  container-job:
     runs-on: ubuntu-latest
+
+    # runs all of the steps inside the specified continer rather than on the VM host.
+    # Because of this the network configuration changes from host based network to a container network.
+    container:
+      image:  ruby:2.6
+
+    services:
+      postgres:
+        image: postgres:9.6
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+        - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Ruby 2.6
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: 2.6.x
     - name: Build and test with Rake
       run: |
         gem install bundler
         bundle install --jobs 4 --retry 3
+        bundle exec rake db:setup
         bundle exec rake
+      env:
+        # use postgres for the host here because we have specified a container for the job.
+        # If we were running the job on the VM this would be localhost
+        POSTGRES_HOST: DATABASE_URL="postgres://postgres:postgres@postgres/postgres"
