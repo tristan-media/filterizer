@@ -32,8 +32,10 @@ class EventTest < ActiveSupport::TestCase
     assert_equal "At DCKT Contemporary: Matthew Craven", @event.tweet_text
     @event.title = "long stuff " * 15
     @event.venue.twitter = 'DCKT'
+    # rubocop:disable Metrics/LineLength
     assert_equal "At DCKT Contemporary @DCKT: long stuff long stuff long stuff long stuff long stuff long stuff long stuff long stuff long stuff long stuff...",
                  @event.tweet_text
+    # rubocop:enable Metrics/LineLength
   end
 
   test "url" do

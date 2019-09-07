@@ -52,3 +52,4 @@ group :test do
 end
 
 gem 'buffer', :github => 'bufferapp/buffer-ruby'
+gem 'rails_admin', '~> 2.0'
