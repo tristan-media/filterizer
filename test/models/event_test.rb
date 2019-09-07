@@ -26,25 +26,9 @@ class EventTest < ActiveSupport::TestCase
     assert_equal [@event], events
   end
 
-  test "tweet text" do
-    assert_equal "At DCKT Contemporary @DCKT: Matthew Craven", @event.tweet_text
-    @event.venue.twitter = nil
-    assert_equal "At DCKT Contemporary: Matthew Craven", @event.tweet_text
-    @event.title = "long stuff " * 15
-    @event.venue.twitter = 'DCKT'
-    # rubocop:disable Metrics/LineLength
-    assert_equal "At DCKT Contemporary @DCKT: long stuff long stuff long stuff long stuff long stuff long stuff long stuff long stuff long stuff long stuff...",
-                 @event.tweet_text
-    # rubocop:enable Metrics/LineLength
-  end
-
   test "url" do
     assert_equal "http://dcktcontemporary.com", @event.url
     @event.website = 'http://dcktcontemporary.com/exhibition/1'
     assert_equal 'http://dcktcontemporary.com/exhibition/1', @event.url
-  end
-
-  test "buffer url" do
-    assert_equal "http://dcktcontemporary.com", @event.buffer_data[:media][:link]
   end
 end
