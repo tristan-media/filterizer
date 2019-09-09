@@ -4,27 +4,26 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up Ruby 2.6
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: 2.6.3
-    - uses: actions/checkout@master
-    - name: npm install
-      uses: actions/npm@master
-      with:
-        args: install
-    - uses: harmon758/postgresql-action@v1
-      with:
-        postgresql version: '9.6'
-    - name: Build and test with Rake
-      run: |
-        apt-get update -qq && apt-get install -y libpq-dev
-        gem install bundler
-        bundle install --jobs 4 --retry 3
-        bundle exec rake db:setup
-        bundle exec rake
+      - uses: actions/checkout@v1
+      - name: Set up Ruby 2.6
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6.3
+      - uses: actions/checkout@master
+      - name: npm install
+        uses: actions/npm@master
+        with:
+          args: install
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: "9.6"
+      - name: Build and test with Rake
+        run: |
+          sudo apt-get update -qq && apt-get install -y libpq-dev
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rake db:setup
+          bundle exec rake
