@@ -18,6 +18,14 @@ class Event < ActiveRecord::Base
 
   scope :not_tweeted, -> { where(tweeted: false) }
 
+  # for rails admin
+  after_initialize do
+    if new_record?
+      self.opening_start_time ||= '18:00'
+      self.opening_end_time ||= '20:00'
+    end
+  end
+
   def url
     website.presence || venue.website
   end
