@@ -8,4 +8,15 @@ module ApplicationHelper
     dt.gsub(/  /, ' ')
     dt.gsub('- ', '-')
   end
+
+  MAX_TWEET_LENGTH = 260.freeze
+
+  # text for tweets
+  def tweet_text(event)
+    text = "At #{event.venue.name}"
+    text += " @#{event.venue.twitter}" if event.venue.twitter.present?
+    text += ": #{event.title}"
+    text = text.truncate(MAX_TWEET_LENGTH) if text.length > MAX_TWEET_LENGTH
+    text
+  end
 end

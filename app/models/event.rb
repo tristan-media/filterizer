@@ -53,4 +53,10 @@ class Event < ActiveRecord::Base
     end
     list
   end
+
+  def self.current
+    today = Time.zone.now.to_date.to_s
+    Event.joins(:venue).where("opening_date = ? or (start_date <= ? and end_date >= ?)",
+                              today, today, today).order("created_at").uniq
+  end
 end
