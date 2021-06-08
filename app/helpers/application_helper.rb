@@ -16,7 +16,6 @@ module ApplicationHelper
     text = "At #{event.venue.name}"
     text += " @#{event.venue.twitter}" if event.venue.twitter.present?
     text += ": #{event.title}"
-    text = text.truncate(MAX_TWEET_LENGTH) if text.length > MAX_TWEET_LENGTH
     text
   end
 end
